@@ -1,4 +1,6 @@
 allowBuilds:
+  '@sentry/node-cpu-profiler': false
+  protobufjs: false
   unrs-resolver: true
 onlyBuiltDependencies:
   - unrs-resolver
