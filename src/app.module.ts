@@ -5,6 +5,8 @@ import { LoggerModule } from 'nestjs-pino';
 import type { IncomingHttpHeaders } from 'node:http';
 import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { APP_FILTER } from '@nestjs/core';
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { auth } from './lib/auth';
 
 interface SerializedReq {
   id: unknown;
@@ -17,6 +19,9 @@ interface SerializedReq {
 @Module({
   imports: [
     SentryModule.forRoot(),
+    // forRoot recebe um OBJETO ({ auth }), não a instância direta.
+    // O AuthGuard é global por padrão: rota sem @AllowAnonymous() exige sessão.
+    AuthModule.forRoot({ auth }),
     LoggerModule.forRoot({
       pinoHttp: {
         level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
