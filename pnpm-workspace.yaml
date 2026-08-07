@@ -1,4 +1,8 @@
 allowBuilds:
+  '@prisma/engines': false
+  '@sentry/node-cpu-profiler': false
+  prisma: false
+  protobufjs: false
   unrs-resolver: true
 onlyBuiltDependencies:
   - unrs-resolver
