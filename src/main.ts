@@ -15,6 +15,13 @@ async function bootstrap() {
   });
   app.useLogger(app.get(Logger));
 
+  // credentials: true é necessário para o cookie de sessão do better-auth
+  // atravessar o CORS.
+  app.enableCors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
+  });
+
   // Validação como fronteira: o que não está no DTO não entra.
   app.useGlobalPipes(
     new ValidationPipe({
