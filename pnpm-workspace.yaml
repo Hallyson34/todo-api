@@ -1,5 +1,7 @@
 allowBuilds:
   '@prisma/engines': false
+  # scarf é telemetria de instalação — não roda build script aqui.
+  '@scarf/scarf': false
   '@sentry/node-cpu-profiler': false
   prisma: false
   protobufjs: false

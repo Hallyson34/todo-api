@@ -7,6 +7,9 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
 import { auth } from './lib/auth';
+import { PrismaModule } from './prisma/prisma.module';
+import { GroupModule } from './group/group.module';
+import { TaskModule } from './task/task.module';
 
 interface SerializedReq {
   id: unknown;
@@ -22,6 +25,9 @@ interface SerializedReq {
     // forRoot recebe um OBJETO ({ auth }), não a instância direta.
     // O AuthGuard é global por padrão: rota sem @AllowAnonymous() exige sessão.
     AuthModule.forRoot({ auth }),
+    PrismaModule,
+    GroupModule,
+    TaskModule,
     LoggerModule.forRoot({
       pinoHttp: {
         level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
