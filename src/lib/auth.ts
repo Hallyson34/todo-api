@@ -7,6 +7,9 @@ import { prismaService } from '../prisma/prisma.service';
 export const auth = betterAuth({
   database: prismaAdapter(prismaService, { provider: 'postgresql' }),
   emailAndPassword: { enabled: true },
+  // Checagem de origem própria do Better Auth, separada do CORS do Express
+  // (ver enableCors em main.ts) — precisa listar as mesmas origens do front.
+  trustedOrigins: ['http://localhost:3000', 'http://localhost:3001'],
 });
 
 export type Auth = typeof auth;
