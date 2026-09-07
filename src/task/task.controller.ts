@@ -32,7 +32,11 @@ export class TaskController {
 
   @Get()
   findAll(@Session() session: UserSession, @Query() query: FindTasksQueryDto) {
-    return this.taskService.findAll(session.user.id, query.groupId);
+    return this.taskService.findAll(
+      session.user.id,
+      query.groupId,
+      query.ungrouped,
+    );
   }
 
   @Get(':id')

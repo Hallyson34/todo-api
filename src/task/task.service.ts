@@ -15,16 +15,22 @@ export class TaskService {
 
   async create(userId: string, dto: CreateTaskDto) {
     // Barra task no grupo alheio: findOne já filtra por userId e estoura 404.
-    await this.groupService.findOne(userId, dto.groupId);
+    // Sem groupId, a task nasce sem grupo — não há dono pra checar.
+    if (dto.groupId) {
+      await this.groupService.findOne(userId, dto.groupId);
+    }
 
     return this.prisma.task.create({
-      data: { title: dto.title, groupId: dto.groupId, userId },
+      data: { title: dto.title, groupId: dto.groupId ?? null, userId },
     });
   }
 
-  findAll(userId: string, groupId?: string) {
+  findAll(userId: string, groupId?: string, ungrouped?: boolean) {
     return this.prisma.task.findMany({
-      where: { userId, ...(groupId ? { groupId } : {}) },
+      where: {
+        userId,
+        ...(ungrouped ? { groupId: null } : groupId ? { groupId } : {}),
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
